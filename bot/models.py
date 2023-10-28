@@ -73,3 +73,8 @@ def sunday_switch(current_date):
         return 1, "EVEN"
     else:
         return 1, "ODD"
+
+
+def next_day(current_data):
+    result = current_data
+    return result[0] + 1, result[1]
