@@ -11,6 +11,9 @@ def get_data_of_db(current_data):
     LEFT JOIN SUBJECTS ON {current_data}.subject_id = SUBJECTS.id
     LEFT JOIN TEACHER_NAME ON {current_data}.teacher_id = TEACHER_NAME.id
     LEFT JOIN CLASSROOMS ON {current_data}.classroom_id = CLASSROOMS.id;''')
+    conn.commit()
+    cur.close()
+    conn.close()
     return list(result)
 
 
