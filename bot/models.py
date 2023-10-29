@@ -5,16 +5,18 @@ import datetime
 def get_data_of_db(current_data):
     conn = sqlite3.connect('schedule.sql')
     cur = conn.cursor()
-    result = cur.execute(f'''SELECT {current_data}.id, LESSON_TIME.time, SUBJECTS.name, TEACHER_NAME.name, CLASSROOMS.name
-    FROM {current_data}
-    LEFT JOIN LESSON_TIME ON {current_data}.time_id = LESSON_TIME.id
-    LEFT JOIN SUBJECTS ON {current_data}.subject_id = SUBJECTS.id
-    LEFT JOIN TEACHER_NAME ON {current_data}.teacher_id = TEACHER_NAME.id
-    LEFT JOIN CLASSROOMS ON {current_data}.classroom_id = CLASSROOMS.id;''')
-    conn.commit()
+    query = f'''SELECT {current_data}.id, LESSON_TIME.time, SUBJECTS.name, TEACHER_NAME.name, CLASSROOMS.name
+                FROM {current_data}
+                LEFT JOIN LESSON_TIME ON {current_data}.time_id = LESSON_TIME.id
+                LEFT JOIN SUBJECTS ON {current_data}.subject_id = SUBJECTS.id
+                LEFT JOIN TEACHER_NAME ON {current_data}.teacher_id = TEACHER_NAME.id
+                LEFT JOIN CLASSROOMS ON {current_data}.classroom_id = CLASSROOMS.id;'''
+
+    result = cur.execute(query).fetchall()
+
     cur.close()
     conn.close()
-    return list(result)
+    return result
 
 
 def get_symbol_of_lesson(number):
@@ -30,7 +32,7 @@ def get_symbol_of_lesson(number):
 
 
 def parse_data(data):
-    result = [tomorrow_day_of_week()]
+    result = []
     for lesson in data:
         if None in lesson:
             continue
@@ -68,7 +70,15 @@ def tomorrow_day_of_week():
     tomorrow = today + datetime.timedelta(days=1)
     days_of_week = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
     tomorrow_day = days_of_week[tomorrow.weekday()]
-    return f'Расписание на завтра - {tomorrow_day}, {tomorrow.strftime("%d.%m.%Y")}\n\n'
+    return f'Расписание на Завтра - {tomorrow_day}, {tomorrow.strftime("%d.%m.%Y")}\n\n'
+
+
+def today_day_of_week():
+    today = datetime.datetime.now()
+    days_of_week = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
+    today_day = days_of_week[today.weekday()]
+    current_time = today.strftime("%H:%M")
+    return f'Расписание на Сегодня - {today_day}, {today.strftime("%d.%m.%Y")}, время: {current_time}\n\n'
 
 
 def sunday_switch(current_date):
