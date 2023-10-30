@@ -41,6 +41,23 @@ def parse_data(data):
     return "".join(result)
 
 
+def week_parse(data, evenness):
+    result = [f'Расписание на {evenness} неделю\n\n']
+    days_of_week = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
+    count = 0
+    for week in data:
+        result.append(f'{days_of_week[count]}\n')
+        if not week:
+            result.append('Выходной\n\n')
+        for lesson in week:
+            if None in lesson:
+                continue
+            result.append(f"{get_symbol_of_lesson(lesson[0])} {lesson[1]}\n{lesson[2]}"
+                          f"\n{lesson[3]}\n{lesson[4]}\n\n")
+        count += 1
+    return "".join(result)
+
+
 def get_day_of_week_and_evennes():
     week = int(datetime.datetime.utcnow().isocalendar()[1])
     if week % 2 == 0:
