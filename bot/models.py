@@ -94,8 +94,7 @@ def today_day_of_week():
     today = datetime.datetime.now()
     days_of_week = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
     today_day = days_of_week[today.weekday()]
-    current_time = today.strftime("%H:%M")
-    return f'Расписание на Сегодня - {today_day}, {today.strftime("%d.%m.%Y")}, время: {current_time}\n\n'
+    return f'Расписание на Сегодня - {today_day}, {today.strftime("%d.%m.%Y")}\n\n'
 
 
 def sunday_switch(current_date):
