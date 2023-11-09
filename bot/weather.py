@@ -54,5 +54,5 @@ def get_weather(day):
     else:
         wd = "Посмотри в окно, я не понимаю, что там за погода..."
 
-    return f"Погода в городе: {city}\nТемпература: {cur_weather} °C / Ощущается как {weather_feels}°C" \
+    return f"Погода в городе: {city}\nТемпература: {cur_weather} °C / Ощущается как {weather_feels} °C" \
            f"\n{weather_description.capitalize()} {wd}\nВетер: {wind} м/с \n"

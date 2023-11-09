@@ -1,4 +1,5 @@
 import telebot
+import logging
 from dotenv import load_dotenv
 import os
 import schedule
@@ -13,6 +14,7 @@ load_dotenv()
 CHAT_ID = os.getenv('CHAT_ID')
 TOKEN = os.getenv('TOKEN')
 bot = telebot.TeleBot(TOKEN)
+logging.basicConfig(filename='bot.log', level=logging.INFO)
 
 
 @bot.message_handler(commands=['today'])
@@ -38,7 +40,7 @@ def main_tomora(message):
         tomorrow = sunday_switch(tomorrow)
     if tomorrow[0] > 5 or tomorrow == (2, "ODD"):
         bot.send_message(message.chat.id, f'{tomorrow_day_of_week()}'
-                                          f'Ничего нет - Отдыхай, башмак\n {get_weather("tomorrow")}'
+                                          f'Ничего нет - Отдыхай, башмак\n{get_weather("tomorrow")}'
                                           f'https://www.youtube.com/shorts/qapArbXRJhk',
                          disable_notification=True)
         return
@@ -49,7 +51,7 @@ def main_tomora(message):
 
 @bot.message_handler(commands=['help', 'start'])
 def help(message):
-    bot.send_message(message.chat.id, "Бот выдает расписание группы ИЦТМС 4-2\n\t"
+    bot.send_message(message.chat.id, "Бот выдает погоду и расписание группы ИЦТМС 4-2\n\t"
                                       "/help - выдает инфо о боте\n\t"
                                       "/today - Выдает расписание на сегодня\n\t"
                                       "/tomora - Выдает расписание на завтра\n\t"
