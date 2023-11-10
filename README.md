@@ -36,3 +36,6 @@ make stop
 make restart
 ```
 
+
+## Notes
+You also need to create a database with your schedule for English with an existing one, as well as to fill the bot on the VPS service for full-fledged work, good luck!
