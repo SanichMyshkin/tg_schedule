@@ -5,8 +5,8 @@ To install the project and run the project, you need to copy the repository usin
 git clone git@github.com:SanichMyshkin/tg_schedule.git
 ```
 ### Next, make sure that you have the [poetry](https://python-poetry.org) package manager installed
-Environment variables are required for correct operation
 
+Environment variables are required for correct operation
 Create a file [.env](https://dev.to/edgar_montano/how-to-setup-env-in-python-4a83) at the root of the project
 
 It is necessary to fill in .env with the following contents
