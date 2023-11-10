@@ -2,7 +2,7 @@
 
 To install the project and run the project, you need to copy the repository using the command:
 ```commandline
-    git clone git@github.com:SanichMyshkin/tg_schedule.git
+git clone git@github.com:SanichMyshkin/tg_schedule.git
 ```
 ### Next, make sure that you have the poetry package manager installed
 Environment variables are required for correct operation
