@@ -1,9 +1,12 @@
 import sqlite3
 import datetime
+import os
+
+db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'schedule.sql'))
 
 
 def get_data_of_db(current_data):
-    conn = sqlite3.connect('schedule.sql')
+    conn = sqlite3.connect(db_path)
     cur = conn.cursor()
     query = f'''SELECT {current_data}.id, LESSON_TIME.time, SUBJECTS.name, TEACHER_NAME.name, CLASSROOMS.name
                 FROM {current_data}
@@ -105,5 +108,4 @@ def sunday_switch(current_date):
 
 
 def next_day(current_data):
-    result = current_data
-    return result[0] + 1, result[1]
+    return current_data[0] + 1, current_data[1]

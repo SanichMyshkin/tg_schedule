@@ -15,3 +15,14 @@ dev:
 
 install:
 	poetry install
+
+test:
+	poetry run pytest
+
+test-cov:
+	 pytest --cov=bot
+
+pu:
+	git add .
+	git commit -m "something fix"
+	git push
