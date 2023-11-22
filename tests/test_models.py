@@ -7,13 +7,46 @@ from bot.models import get_day_of_week_and_evennes, week_parse, \
 
 
 class TestTodayAndTomorrow:
-    @freeze_time("2024-01-01")
-    def test_today_day_of_week(self):
-        pass
+    file_path_today = os.path.abspath(os.path.join(os.path.dirname(__file__), '../tests/fixture/today.json'))
+    file_path_tomorrow = os.path.abspath(os.path.join(os.path.dirname(__file__), '../tests/fixture/tomorrow.json'))
 
-    @freeze_time("2024-01-01")
-    def test_tomorrow_day_of_week(self):
-        pass
+    with open(file_path_today, 'r') as f:
+        today = json.load(f)
+
+    with open(file_path_tomorrow, 'r') as f:
+        tomorrow = json.load(f)
+
+    @freeze_time("2023-04-17")
+    def test_tomorrow_day_of_week1(self):
+        assert TestTodayAndTomorrow.tomorrow["2023-04-17"] == tomorrow_day_of_week()
+
+    @freeze_time("2022-03-11")
+    def test_tomorrow_day_of_week1(self):
+        assert TestTodayAndTomorrow.tomorrow["2022-03-11"] == tomorrow_day_of_week()
+
+    @freeze_time("2024-02-27")
+    def test_tomorrow_day_of_week1(self):
+        assert TestTodayAndTomorrow.tomorrow["2024-02-27"] == tomorrow_day_of_week()
+
+    @freeze_time("2023-11-12")
+    def test_tomorrow_day_of_week1(self):
+        assert TestTodayAndTomorrow.tomorrow["2023-11-12"] == tomorrow_day_of_week()
+
+    @freeze_time("2023-11-22")
+    def test_today_day_of_week1(self):
+        assert TestTodayAndTomorrow.today["2023-11-22"] == today_day_of_week()
+
+    @freeze_time("2022-01-02")
+    def test_today_day_of_week2(self):
+        assert TestTodayAndTomorrow.today["2022-01-02"] == today_day_of_week()
+
+    @freeze_time("2024-09-03")
+    def test_today_day_of_week3(self):
+        assert TestTodayAndTomorrow.today["2024-09-03"] == today_day_of_week()
+
+    @freeze_time("2023-04-17")
+    def test_today_day_of_week4(self):
+        assert TestTodayAndTomorrow.today["2023-04-17"] == today_day_of_week()
 
 
 class TestGetDayOfWeekAndEvenness:
