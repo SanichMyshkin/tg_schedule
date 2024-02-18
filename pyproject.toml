@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "bot"
+version = "0.1.0"
+description = ""
+authors = ["Александр Мышкин <sir.myshkin@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8.10"
+pytelegrambotapi = "^4.14.0"
+schedule = "^1.2.1"
+python-dotenv = "^1.0.0"
+flake8 = "^6.1.0"
+asyncio = "^3.4.3"
+requests = "^2.31.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
