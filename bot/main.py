@@ -46,7 +46,7 @@ def main(message):
 def main_tomora(message):
     current_data = get_day_of_week_and_evennes()  # (2, 'EVEN')
     tomorrow = next_day(current_data)
-    if tomorrow[0] == 8:
+    if tomorrow[0] > 7:
         tomorrow = sunday_switch(tomorrow)
     if tomorrow[0] > 5:
         bot.send_message(message.chat.id, f'{today_day_of_week()}'

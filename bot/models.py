@@ -120,7 +120,7 @@ def today_day_of_week():
 def sunday_switch(current_date):
     if current_date[1] == "ODD":
         return 1, "EVEN"
-    else:
+    if current_date[1] == "EVEN":
         return 1, "ODD"
 
 
