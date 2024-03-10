@@ -20,22 +20,20 @@ bot = telebot.TeleBot(TOKEN)
 def main(message):
     current_data = get_day_of_week_and_evennes()
     if current_data[0] > 5:  # проверяем что не суб и не вск
-        bot.send_message(message.chat.id, f'{today_day_of_week()}'
-                         f'Ничего нет - Отдыхай, башмак\n'
-                         f'\n{get_weather("today")}'
-                         f'https://www.youtube.com/shorts/qapArbXRJhk',
-                         disable_notification=True)
+        bot.send_photo(message.chat.id, 'https://cs.pikabu.ru/post_img/big/2013/03/15/7/1363344258_1606605980.jpg', caption=f'{today_day_of_week()}'
+                       f'Отдыхайте, вы хорошо поработали!\n'
+                       f'\n{get_weather("today")}',
+                       disable_notification=True)
         return
 
     data = get_data_of_db(get_lesson_day(current_data))
     messages = parse_data(data)
 
     if not messages:
-        bot.send_message(message.chat.id, f'{today_day_of_week()}'
-                         f'Ничего нет - Отдыхай, башмак\n'
-                         f'\n{get_weather("today")}'
-                         f'https://www.youtube.com/shorts/qapArbXRJhk',
-                         disable_notification=True)
+        bot.send_photo(message.chat.id, 'https://cs.pikabu.ru/post_img/big/2013/03/15/7/1363344258_1606605980.jpg', caption=f'{today_day_of_week()}'
+                       f'Отдыхайте, вы хорошо поработали!\n'
+                       f'\n{get_weather("today")}',
+                       disable_notification=True)
         return
 
     bot.send_message(message.chat.id, f'{today_day_of_week()}{messages}'
@@ -44,25 +42,23 @@ def main(message):
 
 @bot.message_handler(commands=['tomora'])
 def main_tomora(message):
-    current_data = get_day_of_week_and_evennes()  # (2, 'EVEN')
+    current_data = get_day_of_week_and_evennes()
     tomorrow = next_day(current_data)
-    if tomorrow[0] > 7:
+    if tomorrow[0] == 7:
         tomorrow = sunday_switch(tomorrow)
     if tomorrow[0] > 5:
-        bot.send_message(message.chat.id, f'{today_day_of_week()}'
-                         f'Ничего нет - Отдыхай, башмак\n'
-                         f'\n{get_weather("today")}'
-                         f'https://www.youtube.com/shorts/qapArbXRJhk',
-                         disable_notification=True)
+        bot.send_photo(message.chat.id, 'https://cs.pikabu.ru/post_img/big/2013/03/15/7/1363344258_1606605980.jpg', caption=f'{tomorrow_day_of_week()}'
+                       f'Отдыхайте, вы хорошо поработали!\n'
+                       f'\n{get_weather("today")}',
+                       disable_notification=True)
         return
     data = get_data_of_db(get_lesson_day(tomorrow))
     messages = parse_data(data)
     if not messages:
-        bot.send_message(message.chat.id, f'{today_day_of_week()}'
-                         f'Ничего нет - Отдыхай, башмак\n'
-                         f'\n{get_weather("today")}'
-                         f'https://www.youtube.com/shorts/qapArbXRJhk',
-                         disable_notification=True)
+        bot.send_photo(message.chat.id, 'https://cs.pikabu.ru/post_img/big/2013/03/15/7/1363344258_1606605980.jpg', caption=f'{tomorrow_day_of_week()}'
+                       f'Отдыхайте, вы хорошо поработали!\n'
+                       f'\n{get_weather("today")}',
+                       disable_notification=True)
         return
     bot.send_message(message.chat.id, f'{tomorrow_day_of_week()}{messages}{get_weather("tomorrow")}',  # noqa E501
                      disable_notification=True)
@@ -106,11 +102,6 @@ def send_message():
     data = get_data_of_db(get_lesson_day(current_data))
     messages = parse_data(data)
     if not messages:
-        bot.send_message(chat_id=CHAT_ID, text=f'{today_day_of_week()}'
-                         f'Ничего нет - Отдыхай, башмак\n'
-                         f'\n{get_weather("today")}'
-                         f'https://www.youtube.com/shorts/qapArbXRJhk',
-                         disable_notification=True)
         return
     bot.send_message(chat_id=CHAT_ID, text=f'{today_day_of_week()}{messages}'
                                            f'{get_weather("today")}', disable_notification=True)  # noqa E501

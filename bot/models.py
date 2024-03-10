@@ -79,9 +79,9 @@ def week_parse(data, evenness):
 def get_day_of_week_and_evennes():
     week = int(datetime.datetime.utcnow().isocalendar()[1])
     if week % 2 == 0:
-        evennes_of_the_week = 'ODD'
+        evennes_of_the_week = 'EVEN'
     else:
-        evennes_of_the_week = "EVEN"
+        evennes_of_the_week = "ODD"
     day_of_the_week = datetime.datetime.today().weekday() + 1
 
     return day_of_the_week, evennes_of_the_week
