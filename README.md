@@ -42,15 +42,15 @@ You also need to create a database with your schedule for English with an existi
 
 
 help
--- Вставка данных в таблицу "TUESDAY_EVEN"
-INSERT INTO "TUESDAY_EVEN" ("time_id", "discipline_id", "note_id", "professor_id", "room_id")
+-- Вставка данных в таблицу "MONDAY_ODD"
+INSERT INTO "MONDAY_ODD" ("time_id", "discipline_id", "note_id", "professor_id", "room_id")
 VALUES (2, 13, 1, 8, 10);
 
 -- Вызов данных
-SELECT TUESDAY_EVEN.id, Lession_time.time, Disciplines.name, Notes.name, Professors.name, Rooms.name
-                FROM TUESDAY_EVEN
-                LEFT JOIN Lession_time ON TUESDAY_EVEN.time_id = Lession_time.id
-                LEFT JOIN Disciplines ON TUESDAY_EVEN.discipline_id = Disciplines.id
-				LEFT JOIN Notes ON TUESDAY_EVEN.note_id = Notes.id
-                LEFT JOIN Professors ON TUESDAY_EVEN.professor_id = Professors.id
-                LEFT JOIN Rooms ON TUESDAY_EVEN.room_id = Rooms.id;
+SELECT MONDAY_ODD.id, Lession_time.time, Disciplines.name, Notes.name, Professors.name, Rooms.name
+                FROM MONDAY_ODD
+                LEFT JOIN Lession_time ON MONDAY_ODD.time_id = Lession_time.id
+                LEFT JOIN Disciplines ON MONDAY_ODD.discipline_id = Disciplines.id
+				LEFT JOIN Notes ON MONDAY_ODD.note_id = Notes.id
+                LEFT JOIN Professors ON MONDAY_ODD.professor_id = Professors.id
+                LEFT JOIN Rooms ON MONDAY_ODD.room_id = Rooms.id;

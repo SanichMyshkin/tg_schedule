@@ -4,11 +4,10 @@ import os
 import schedule
 import time
 from threading import Thread
-from weather import get_weather
-
 from models import parse_data, get_data_of_db, get_lesson_day, \
     get_day_of_week_and_evennes, sunday_switch, next_day, \
     tomorrow_day_of_week, today_day_of_week, week_parse
+from weather import get_weather
 
 load_dotenv()
 CHAT_ID = os.getenv('CHAT_ID')
@@ -16,57 +15,45 @@ TOKEN = os.getenv('TOKEN')
 bot = telebot.TeleBot(TOKEN)
 
 
-@bot.message_handler(commands=['today'])
-def main(message):
-    current_data = get_day_of_week_and_evennes()
-    if current_data[0] > 5:  # проверяем что не суб и не вск
-        bot.send_photo(message.chat.id, 'https://cs.pikabu.ru/post_img/big/2013/03/15/7/1363344258_1606605980.jpg', caption=f'{today_day_of_week()}'
-                       f'Отдыхайте, вы хорошо поработали!\n'
-                       f'\n{get_weather("today")}',
-                       disable_notification=True)
-        return
+def send_schedule(chat_id, day, message):
+    bot.send_message(chat_id, f'{day}{message}', disable_notification=True)
 
+
+def get_and_send_schedule(message, day_offset=0):
+    current_data = get_day_of_week_and_evennes()
+    if current_data[0] > 5:
+        bot.send_message(message.chat.id, f'Выходной жабы',
+                         disable_notification=True)
+        return
+    if day_offset != 0:
+        current_data = next_day(current_data)
+        if current_data[0] >= 7:
+            current_data = sunday_switch(current_data)
     data = get_data_of_db(get_lesson_day(current_data))
     messages = parse_data(data)
-
     if not messages:
-        bot.send_photo(message.chat.id, 'https://cs.pikabu.ru/post_img/big/2013/03/15/7/1363344258_1606605980.jpg', caption=f'{today_day_of_week()}'
-                       f'Отдыхайте, вы хорошо поработали!\n'
-                       f'\n{get_weather("today")}',
-                       disable_notification=True)
+        bot.send_message(message.chat.id, 'Выходной жабы',
+                         disable_notification=True)
         return
+    day = today_day_of_week() if day_offset == 0 else tomorrow_day_of_week()
+    weather = get_weather(
+        "today") if day_offset == 0 else get_weather("tomorrow")
+    send_schedule(message.chat.id, day, f'{messages}{weather}')
 
-    bot.send_message(message.chat.id, f'{today_day_of_week()}{messages}'
-                     f'{get_weather("today")}', disable_notification=True)
+
+@bot.message_handler(commands=['today'])
+def main_today(message):
+    get_and_send_schedule(message)
 
 
 @bot.message_handler(commands=['tomora'])
-def main_tomora(message):
-    current_data = get_day_of_week_and_evennes()
-    tomorrow = next_day(current_data)
-    if tomorrow[0] == 7:
-        tomorrow = sunday_switch(tomorrow)
-    if tomorrow[0] > 5:
-        bot.send_photo(message.chat.id, 'https://cs.pikabu.ru/post_img/big/2013/03/15/7/1363344258_1606605980.jpg', caption=f'{tomorrow_day_of_week()}'
-                       f'Отдыхайте, вы хорошо поработали!\n'
-                       f'\n{get_weather("today")}',
-                       disable_notification=True)
-        return
-    data = get_data_of_db(get_lesson_day(tomorrow))
-    messages = parse_data(data)
-    if not messages:
-        bot.send_photo(message.chat.id, 'https://cs.pikabu.ru/post_img/big/2013/03/15/7/1363344258_1606605980.jpg', caption=f'{tomorrow_day_of_week()}'
-                       f'Отдыхайте, вы хорошо поработали!\n'
-                       f'\n{get_weather("today")}',
-                       disable_notification=True)
-        return
-    bot.send_message(message.chat.id, f'{tomorrow_day_of_week()}{messages}{get_weather("tomorrow")}',  # noqa E501
-                     disable_notification=True)
+def main_tomorrow(message):
+    get_and_send_schedule(message, 1)
 
 
 @bot.message_handler(commands=['help', 'start'])
 def help(message):
-    bot.send_message(message.chat.id, "Бот выдает погоду и расписание группы ИЦТМС 4-2\n\t"  # noqa E501
+    bot.send_message(message.chat.id, "Бот выдает погоду и расписание группы ИЦТМС 4-2\n\t"
                      "/help - выдает инфо о боте\n\t"
                      "/today - Выдает расписание на сегодня\n\t"
                      "/tomora - Выдает расписание на завтра\n\t"
@@ -77,10 +64,7 @@ def help(message):
 @bot.message_handler(commands=['ODD', 'EVEN'])
 def week(message):
     result = []
-    translate = {
-        'ODD': 'Нечётную',
-        "EVEN": "Чётную"
-    }
+    translate = {"ODD": 'нечётную', "EVEN": "чётную"}
     for i in range(1, 6):
         cur = get_lesson_day((i, message.text[1:]))
         result.append(get_data_of_db(cur))
@@ -96,15 +80,7 @@ def schedule_time_send():
 
 
 def send_message():
-    current_data = get_day_of_week_and_evennes()
-    if current_data[0] > 5:
-        return
-    data = get_data_of_db(get_lesson_day(current_data))
-    messages = parse_data(data)
-    if not messages:
-        return
-    bot.send_message(chat_id=CHAT_ID, text=f'{today_day_of_week()}{messages}'
-                                           f'{get_weather("today")}', disable_notification=True)  # noqa E501
+    get_and_send_schedule(bot, CHAT_ID)
 
 
 @bot.message_handler(commands=['id'])
