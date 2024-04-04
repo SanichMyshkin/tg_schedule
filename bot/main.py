@@ -19,11 +19,10 @@ def send_schedule(chat_id, day, message):
     bot.send_message(chat_id, f'{day}{message}', disable_notification=True)
 
 
-def get_and_send_schedule(message, day_offset=0):
+def get_and_send_schedule(bot, chat_id, day_offset=0):
     current_data = get_day_of_week_and_evennes()
     if current_data[0] > 5:
-        bot.send_message(message.chat.id, f'Выходной жабы',
-                         disable_notification=True)
+        bot.send_message(chat_id, 'Выходной жабы', disable_notification=True)
         return
     if day_offset != 0:
         current_data = next_day(current_data)
@@ -32,23 +31,22 @@ def get_and_send_schedule(message, day_offset=0):
     data = get_data_of_db(get_lesson_day(current_data))
     messages = parse_data(data)
     if not messages:
-        bot.send_message(message.chat.id, 'Выходной жабы',
-                         disable_notification=True)
+        bot.send_message(chat_id, 'Выходной жабы', disable_notification=True)
         return
     day = today_day_of_week() if day_offset == 0 else tomorrow_day_of_week()
     weather = get_weather(
         "today") if day_offset == 0 else get_weather("tomorrow")
-    send_schedule(message.chat.id, day, f'{messages}{weather}')
+    send_schedule(chat_id, day, f'{messages}{weather}')
 
 
 @bot.message_handler(commands=['today'])
 def main_today(message):
-    get_and_send_schedule(message)
+    get_and_send_schedule(bot, message.chat.id)
 
 
 @bot.message_handler(commands=['tomora'])
 def main_tomorrow(message):
-    get_and_send_schedule(message, 1)
+    get_and_send_schedule(bot, message.chat.id, 1)
 
 
 @bot.message_handler(commands=['help', 'start'])
