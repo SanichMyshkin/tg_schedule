@@ -22,6 +22,8 @@ dev:
 install:
 	poetry install
 
+dbcreate:
+	python3 bot/createdb.py
 
 pu:
 	git add .

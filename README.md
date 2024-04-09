@@ -1,9 +1,15 @@
 # Telegram bot for mailing schedules and weather
 
+You can try this [demo](t.me/Schedule_ICTMS_BOT) if you want to understand how this bot works 
+
 To install the project and run the project, you need to copy the repository using the command:
 ```commandline
 git clone git@github.com:SanichMyshkin/tg_schedule.git
+cd tg_schedule.git
 ```
+
+
+
 ### Next, make sure that you have the [poetry](https://python-poetry.org) package manager installed
 
 Environment variables are required for correct operation
@@ -53,6 +59,15 @@ In field `WorkingDirectory` - write path to this project
 
 It remains only to install the necessary packages, and run it using the following commands
 
+In order to create database you need to execute the command
+
+```
+make dbcreate
+```
+
+You need to fill database with your data. You can look up the structure of the database schemas in the `createdb.py` file.
+
+
 ```commandline
 make install
 make start
@@ -64,8 +79,3 @@ Also, if you want to stop or restart the bot, use the following commands
 make stop
 make restart
 ```
-
-
-## Notes
-
-You also need to create a database with your schedule for English with an existing one, as well as to fill the bot on the VPS service for full-fledged work, good luck!
