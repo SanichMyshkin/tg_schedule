@@ -27,12 +27,12 @@ def get_and_send_schedule(bot, chat_id, day_offset=0):
         if current_data[0] >= 7:
             current_data = sunday_switch(current_data)
     if current_data[0] > 5:
-        bot.send_message(chat_id, 'Выходной жабы', disable_notification=True)
+        bot.send_message(chat_id, 'Выходной', disable_notification=True)
         return
     data = get_data_of_db(get_lesson_day(current_data))
     messages = parse_data(data)
     if not messages:
-        bot.send_message(chat_id, 'Выходной жабы', disable_notification=True)
+        bot.send_message(chat_id, 'Выходной', disable_notification=True)
         return
     day = today_day_of_week() if day_offset == 0 else tomorrow_day_of_week()
     weather = get_weather(
