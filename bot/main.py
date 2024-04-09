@@ -21,13 +21,14 @@ def send_schedule(chat_id, day, message):
 
 def get_and_send_schedule(bot, chat_id, day_offset=0):
     current_data = get_day_of_week_and_evennes()
-    if current_data[0] > 5:
-        bot.send_message(chat_id, 'Выходной жабы', disable_notification=True)
-        return
+    print(current_data)
     if day_offset != 0:
         current_data = next_day(current_data)
         if current_data[0] >= 7:
             current_data = sunday_switch(current_data)
+    if current_data[0] > 5:
+        bot.send_message(chat_id, 'Выходной жабы', disable_notification=True)
+        return
     data = get_data_of_db(get_lesson_day(current_data))
     messages = parse_data(data)
     if not messages:

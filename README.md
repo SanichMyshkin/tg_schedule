@@ -16,17 +16,46 @@ CHAT_ID = 'id of the chat to which you want to send the schedule by time'
 WEATHER_API_KEY = "your api key for weather"
 ```
 
+
 before installing dependencies, you need to run the virtual environment using the command
 
 ```commandline
 make shell
 ```
 
+In order to create the service, which will support this bot in active state we need to execute following commands
+
+```
+cd /etc/systemd/system
+touch bot.service
+```
+Fill file `bot.service` with following data
+
+```
+[Unit]
+Description=Telegram bot schedule
+
+[Service]
+User=root
+WorkingDirectory=/home/tg_schedule
+ExecStart=/home/tg_schedule/.venv/bin/python bot/main.py
+
+Restart=always
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
+```
+
+In field `WorkingDirectory` - write path to this project
+
+`ExecStart` - write path to Python interpritator and write path to executable file (by default in project `bot/main.py`) 
+
 It remains only to install the necessary packages, and run it using the following commands
 
 ```commandline
 make install
-make satrt
+make start
 ```
 
 
@@ -38,19 +67,5 @@ make restart
 
 
 ## Notes
+
 You also need to create a database with your schedule for English with an existing one, as well as to fill the bot on the VPS service for full-fledged work, good luck!
-
-
-help
--- Вставка данных в таблицу "MONDAY_ODD"
-INSERT INTO "MONDAY_ODD" ("time_id", "discipline_id", "note_id", "professor_id", "room_id")
-VALUES (2, 13, 1, 8, 10);
-
--- Вызов данных
-SELECT MONDAY_ODD.id, Lession_time.time, Disciplines.name, Notes.name, Professors.name, Rooms.name
-                FROM MONDAY_ODD
-                LEFT JOIN Lession_time ON MONDAY_ODD.time_id = Lession_time.id
-                LEFT JOIN Disciplines ON MONDAY_ODD.discipline_id = Disciplines.id
-				LEFT JOIN Notes ON MONDAY_ODD.note_id = Notes.id
-                LEFT JOIN Professors ON MONDAY_ODD.professor_id = Professors.id
-                LEFT JOIN Rooms ON MONDAY_ODD.room_id = Rooms.id;
