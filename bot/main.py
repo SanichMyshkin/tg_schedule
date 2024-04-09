@@ -52,7 +52,7 @@ def main_tomorrow(message):
 
 @bot.message_handler(commands=['help', 'start'])
 def help(message):
-    bot.send_message(message.chat.id, "Бот выдает погоду и расписание группы ИЦТМС 4-2\n\t"
+    bot.send_message(message.chat.id, "Бот выдает погоду и расписание группы ИЦТМС 4-2\n\t" # noqa E501
                      "/help - выдает инфо о боте\n\t"
                      "/today - Выдает расписание на сегодня\n\t"
                      "/tomora - Выдает расписание на завтра\n\t"
