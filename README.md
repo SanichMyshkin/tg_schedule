@@ -1,11 +1,11 @@
 # Telegram bot for mailing schedules and weather
 
-You can try this [demo](t.me/Schedule_ICTMS_BOT) if you want to understand how this bot works 
+You can try this [demo](https://t.me/Schedule_ICTMS_BOT) if you want to understand how this bot works 
 
 To install the project and run the project, you need to copy the repository using the command:
 ```commandline
 git clone git@github.com:SanichMyshkin/tg_schedule.git
-cd tg_schedule.git
+cd tg_schedule
 ```
 
 
