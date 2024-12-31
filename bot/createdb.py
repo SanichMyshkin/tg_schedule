@@ -1,40 +1,34 @@
 import sqlite3
 
-conn = sqlite3.connect('bot/database.sql')
+conn = sqlite3.connect("bot/database.sql")
 cursor = conn.cursor()
 
-cursor.execute('''CREATE TABLE IF NOT EXISTS Disciplines
+cursor.execute("""CREATE TABLE IF NOT EXISTS Disciplines
         (id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT UNIQUE)''')
+        name TEXT UNIQUE)""")
 
-cursor.execute('''CREATE TABLE IF NOT EXISTS Lesson_time
+cursor.execute("""CREATE TABLE IF NOT EXISTS Lesson_time
         (id INTEGER PRIMARY KEY AUTOINCREMENT,
-        time TEXT UNIQUE)''')
+        time TEXT UNIQUE)""")
 
-cursor.execute('''CREATE TABLE IF NOT EXISTS Notes
+cursor.execute("""CREATE TABLE IF NOT EXISTS Notes
         (id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT UNIQUE)''')
+        name TEXT UNIQUE)""")
 
-cursor.execute('''CREATE TABLE IF NOT EXISTS Professors
+cursor.execute("""CREATE TABLE IF NOT EXISTS Professors
         (id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT UNIQUE)''')
+        name TEXT UNIQUE)""")
 
-cursor.execute('''CREATE TABLE IF NOT EXISTS Rooms
+cursor.execute("""CREATE TABLE IF NOT EXISTS Rooms
         (id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT UNIQUE)''')
+        name TEXT UNIQUE)""")
 
-week_days = [
-    'MONDAY',
-    'TUESDAY',
-    'WEDNESDAY',
-    'THURSDAY',
-    'FRIDAY'
-]
-evenness_day = ['ODD', 'EVEN']
+week_days = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"]
+evenness_day = ["ODD", "EVEN"]
 
 for day in week_days:
     for evenness in evenness_day:
-        cursor.execute(f'''
+        cursor.execute(f"""
         CREATE TABLE IF NOT EXISTS '{day}_{evenness}'
             ('id' INTEGER,
             'time_id' INTEGER,
@@ -47,7 +41,7 @@ for day in week_days:
                 FOREIGN KEY('time_id') REFERENCES 'Lesson_time',
                 FOREIGN KEY('room_id') REFERENCES 'Rooms',
                 FOREIGN KEY('professor_id') REFERENCES 'Professors',
-                PRIMARY KEY('id' AUTOINCREMENT))''')
+                PRIMARY KEY('id' AUTOINCREMENT))""")
 
 
 # Сохраняем изменения
